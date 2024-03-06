@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from newspaper_agency import settings
@@ -15,7 +16,7 @@ class Topic(models.Model):
 
 
 class Redactor(AbstractUser):
-    years_of_experience = models.IntegerField(default=0)
+    years_of_experience = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(99)])
 
     class Meta:
         ordering = ("username", )
