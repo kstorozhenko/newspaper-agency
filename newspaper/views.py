@@ -26,6 +26,11 @@ class TopicListView(ListView):
     model = Topic
 
 
+class TopicDetailView(DetailView):
+    model = Topic
+    template_name = "newspaper/topic_detail_view.html"
+
+
 class NewspaperListView(ListView):
     model = Newspaper
 

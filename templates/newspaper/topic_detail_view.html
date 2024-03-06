@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>{{ topic.name }}</h1>
+
+  {% if topic.newspapers.all %}
+    <ul>
+      {% for newspaper in topic.newspapers.all %}
+        <li>
+          <a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a>
+          by 
+          {% for redactor in newspaper.redactors.all %}
+            {{ redactor.username }} | {{ redactor.first_name }} {{ redactor.last_name }} at {{ newspaper.publish_date }}
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no articles on this topic.</p>
+  {% endif %}
+
+{% endblock %}

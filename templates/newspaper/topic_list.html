@@ -5,8 +5,10 @@
   {% if topic_list %}
     <ul>
       {% for topic in topic_list %}
-        <li>{{ topic.name }}</li>
-    {% endfor %}
+        <li>
+          <a href="{% url 'newspaper:topic-detail' topic.id %}">{{ topic.name }}</a>
+        </li>
+      {% endfor %}
     </ul>
   {% else %}
     <p>There are no Topics</p>
