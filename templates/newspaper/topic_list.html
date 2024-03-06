@@ -3,13 +3,26 @@
   <h1>Topics list</h1>
 
   {% if topic_list %}
-    <ul>
-      {% for topic in topic_list %}
-        <li>
-          <a href="{% url 'newspaper:topic-detail' topic.id %}">{{ topic.name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+    <table style="width:100%; table-layout: fixed;">
+      <colgroup>
+        <col style="width:50%">
+        <col style="width:50%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Number of Articles</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for topic in topic_list %}
+          <tr>
+            <td><a href="{% url 'newspaper:topic-detail' topic.id %}">{{ topic.name }}</a></td>
+            <td>{{ topic.newspapers.count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
     <p>There are no Topics</p>
   {% endif %}

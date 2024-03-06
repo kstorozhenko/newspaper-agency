@@ -9,8 +9,15 @@
           <a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a>
           by 
           {% for redactor in newspaper.redactors.all %}
-            {{ redactor.username }} | {{ redactor.first_name }} {{ redactor.last_name }} at {{ newspaper.publish_date }}
+            {% if forloop.last and forloop.counter > 1 %}
+              and <strong>{{ redactor.username }}</strong>
+            {% elif not forloop.first %}
+              , <strong>{{ redactor.username }}</strong>
+            {% else %}
+              <strong>{{ redactor.username }}</strong>
+            {% endif %}
           {% endfor %}
+          at <em>{{ newspaper.publish_date }}</em>
         </li>
       {% endfor %}
     </ul>
