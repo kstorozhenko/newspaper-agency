@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>Our home page</title>
+{% endblock %}
+{% block content %}
+  <h1>Eagle home page</h1>
+    <p>Welcome to the Newspaper Agency</p>
+    <h3>Our content:</h3>
+    <ul>
+      <li>Num newspapers: {{ num_newspapers }}</li>
+      <li>Num redactors: {{ num_redactors }}</li>
+      <li>Num topics: {{ num_topics }}</li>
+    </ul>
+{% endblock %}
