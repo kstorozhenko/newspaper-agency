@@ -16,7 +16,11 @@ class Topic(models.Model):
 
 
 class Redactor(AbstractUser):
-    years_of_experience = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(99)])
+    years_of_experience = models.PositiveIntegerField(
+        default=0,
+        validators=[MinValueValidator(0),
+                    MaxValueValidator(99)]
+    )
 
     class Meta:
         ordering = ("username", )
