@@ -3,13 +3,24 @@
   <h1>Newspapers list</h1>
 
   {% if newspaper_list %}
-    <ul>
-      {% for newspaper in newspaper_list %}
-        <li>
-          <a href="{% url 'newspaper:newspaper-detail' newspaper.id %}"> {{ newspaper.title }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+    <table style="width:100%; line-height:2;">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Topic</th>
+          <th>Publish Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for newspaper in newspaper_list %}
+          <tr>
+            <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a></td>
+            <td>{{ newspaper.topic.name }}</td>
+            <td>{{ newspaper.publish_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
     <p>There are no Newspapers</p>
   {% endif %}
