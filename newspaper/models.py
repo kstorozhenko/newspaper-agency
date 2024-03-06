@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -11,3 +12,8 @@ class Topic(models.Model):
         return self.name
 
 
+class Redactor(AbstractUser):
+    years_of_experience = models.IntegerField()
+
+    class Meta:
+        ordering = ("username", )
