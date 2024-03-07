@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
   <h1>{{ topic.name }}</h1>
+  <a class="button" href="{% url 'newspaper:topic-update' topic.id %}">Update Topic</a>
+  <a class="button" href="{% url 'newspaper:topic-delete' topic.id %}">Delete Topic</a>
 
   {% if topic.newspapers.all %}
     <ul>
@@ -24,5 +26,4 @@
   {% else %}
     <p>There are no articles on this topic.</p>
   {% endif %}
-
 {% endblock %}

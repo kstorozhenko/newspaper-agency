@@ -1,20 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Topics list</h1>
-
-  <a href="{% url 'newspaper:topic-create' %}" class="button">Create new topic</a>
+  <h1 style="display: inline-block;">Topics list</h1>
+  <a href="{% url 'newspaper:topic-create' %}" class="button" style="float: right;">Create new topic</a>
 
   {% if topic_list %}
-    <table style="width:100%; table-layout: fixed;">
-      <colgroup>
-        <col style="width:50%">
-        <col style="width:50%">
-      </colgroup>
+    <table class="table">
       <thead>
         <tr>
           <th>Topic</th>
           <th>Number of Articles</th>
+          <th>Latest published article on the topic</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +18,13 @@
           <tr>
             <td><a href="{% url 'newspaper:topic-detail' topic.id %}">{{ topic.name }}</a></td>
             <td>{{ topic.newspapers.count }}</td>
+            <td>
+              {% if topic.latest_article %}
+                <a href="{% url 'newspaper:newspaper-detail' topic.latest_article.id %}">{{ topic.latest_article.title }}</a>
+              {% else %}
+                No articles yet
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

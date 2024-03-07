@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>Articles list</h1>
-
-  <a href="{% url 'newspaper:newspaper-create' %}" class="button">Create new Article</a>
+  <h1 style="display: inline-block;">Articles list</h1>
+  <a href="{% url 'newspaper:newspaper-create' %}" class="button" style="float: right;">Create new Article</a>
   
   <div>
     <a href="?order=asc">Sort by oldest</a> |
@@ -10,12 +9,14 @@
   </div>
 
   {% if newspaper_list %}
-    <table style="width:100%; line-height:2;">
+    <table class="table">
       <thead>
         <tr>
           <th>Title</th>
           <th>Topic</th>
           <th>Publish Date</th>
+          <th>Update</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,12 @@
             <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a></td>
             <td>{{ newspaper.topic.name }}</td>
             <td>{{ newspaper.publish_date }}</td>
+            <td>
+              <a href="{% url 'newspaper:newspaper-update' pk=newspaper.id %}">UPDATE</a>
+            </td>
+            <td>
+              <a href="{% url 'newspaper:newspaper-delete' pk=newspaper.id %}">DELETE</a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
