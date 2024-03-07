@@ -6,12 +6,12 @@
     <li>
       <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        <button type="submit">Logout</button>
+        <button class="button" type="submit">Logout</button>
       </form>
     </li>
   {% else %}
     <li>
-      <a href="{% url 'login' %}">Login</a>
+      <a class="button" href="{% url 'login' %}">Login</a>
     </li>
   {% endif %}
   <br>

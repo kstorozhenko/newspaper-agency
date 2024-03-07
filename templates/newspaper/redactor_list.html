@@ -2,6 +2,11 @@
 {% block content %}
   <h1>Our redactors</h1>
 
+  <div>
+    <a href="?order=asc">Sort by articles ↓</a> |
+    <a href="?order=desc">Sort by articles ↑</a>
+  </div>
+
   {% if redactor_list %}
     <table style="width:100%; table-layout: fixed;">
       <thead>

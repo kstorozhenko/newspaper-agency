@@ -7,3 +7,38 @@ body {
     padding: 0;
     list-style: none;
 }
+
+.button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+}
+
+.button:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid black;
+}
+
+.page-number {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  padding: 10px 22px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  font-size: 16px !important;
+  margin: 4px 2px !important;
+  transition-duration: 0.4s !important;
+
+}
+
+
