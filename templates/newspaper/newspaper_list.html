@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block content %}
   <h1 style="display: inline-block;">Articles list</h1>
   <a href="{% url 'newspaper:newspaper-create' %}" class="button" style="float: right;">Create new Article</a>
-  
-  <div>
-    <a href="?order=asc">Sort by oldest</a> |
-    <a href="?order=desc">Sort by newest</a>
-  </div>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="button" type="submit" value="🔍">
+  </form>
 
   {% if newspaper_list %}
     <table class="table">

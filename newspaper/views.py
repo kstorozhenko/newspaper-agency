@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from newspaper.forms import RedactorCreationForm
+from newspaper.forms import RedactorCreationForm, NewspaperForm, NewspaperSearchForm
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -68,13 +68,19 @@ class NewspaperListView(ListView):
     model = Newspaper
     paginate_by = 5
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(NewspaperListView, self).get_context_data(**kwargs)
+        title = self.request.GET.get("title", "")
+        context["search_form"] = NewspaperSearchForm(
+            initial={"title": title}
+        )
+        return context
+
     def get_queryset(self):
-        queryset = super().get_queryset()
-        order = self.request.GET.get("order", None)
-        if order == "asc":
-            queryset = queryset.order_by(F('publish_date').asc(nulls_last=True))
-        elif order == "desc":
-            queryset = queryset.order_by(F('publish_date').desc(nulls_last=True))
+        queryset = Newspaper.objects.select_related("topic")
+        form = NewspaperSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(title__icontains=form.cleaned_data["title"])
         return queryset
 
 
@@ -85,14 +91,14 @@ class NewspaperDetailView(DetailView):
 
 class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
     model = Newspaper
-    fields = "__all__"
+    form_class = NewspaperForm
     template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
 
 class NewspaperCreateView(LoginRequiredMixin, CreateView):
     model = Newspaper
-    fields = "__all__"
+    form_class = NewspaperForm
     template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
@@ -106,6 +112,7 @@ class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
 class RedactorListView(ListView):
     model = Redactor
     template_name = "newspaper/redactor_list.html"
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
