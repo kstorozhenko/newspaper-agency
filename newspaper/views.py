@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from newspaper.models import Newspaper, Redactor, Topic
 
@@ -31,10 +31,29 @@ def index(request: HttpRequest) -> HttpResponse:
 class TopicListView(ListView):
     model = Topic
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for topic in context['topic_list']:
+            topic.latest_article = topic.newspapers.order_by('-publish_date').first()
+        return context
+
 
 class TopicDetailView(DetailView):
     model = Topic
     template_name = "newspaper/topic_detail_view.html"
+
+
+class TopicUpdateView(LoginRequiredMixin, UpdateView):
+    model = Topic
+    fields = "__all__"
+    template_name = "forms/topic_form.html"
+    success_url = reverse_lazy("newspaper:topic-list")
+
+
+class TopicDeleteView(LoginRequiredMixin, DeleteView):
+    model = Topic
+    template_name = "forms/topic_confirm_delete.html"
+    success_url = reverse_lazy("newspaper:topic-list")
 
 
 class TopicCreateView(LoginRequiredMixin, CreateView):
@@ -63,10 +82,23 @@ class NewspaperDetailView(DetailView):
     template_name = "newspaper/newspaper_detail_view.html"
 
 
+class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
+    model = Newspaper
+    fields = "__all__"
+    template_name = "forms/newspaper_form.html"
+    success_url = reverse_lazy("newspaper:newspaper-list")
+
+
 class NewspaperCreateView(LoginRequiredMixin, CreateView):
     model = Newspaper
     fields = "__all__"
     template_name = "forms/newspaper_form.html"
+    success_url = reverse_lazy("newspaper:newspaper-list")
+
+
+class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
+    model = Newspaper
+    template_name = "forms/newspaper_confirm_delete.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
 
