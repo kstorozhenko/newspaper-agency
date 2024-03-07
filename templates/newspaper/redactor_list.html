@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>Our redactors</h1>
+  <h1 style="display: inline-block;">Our redactors</h1>
+  <a href="{% url 'newspaper:redactor-create' %}" class="button" style="float: right;">Create new redactor</a>
 
   <div>
     <a href="?order=asc">Sort by number of articles ↓</a> |
@@ -15,6 +16,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Number of Articles</th>
+          <th>Experience</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +26,7 @@
             <td>{{ redactor.first_name }}</td>
             <td>{{ redactor.last_name }}</td>
             <td>{{ redactor.newspapers.count }}</td>
+            <td>{{ redactor.years_of_experience }} years</td>
           </tr>
         {% endfor %}
       </tbody>
