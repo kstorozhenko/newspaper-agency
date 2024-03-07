@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+
 {% block content %}
   <h1>Topics list</h1>
+
+  <a href="{% url 'newspaper:topic-create' %}" class="button">Create new topic</a>
 
   {% if topic_list %}
     <table style="width:100%; table-layout: fixed;">

@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import F, Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from newspaper.models import Newspaper, Redactor, Topic
 
@@ -34,9 +37,25 @@ class TopicDetailView(DetailView):
     template_name = "newspaper/topic_detail_view.html"
 
 
+class TopicCreateView(LoginRequiredMixin, CreateView):
+    model = Topic
+    fields = "__all__"
+    template_name = "forms/topic_form.html"
+    success_url = reverse_lazy("newspaper:topic-list")
+
+
 class NewspaperListView(ListView):
     model = Newspaper
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order = self.request.GET.get("order", None)
+        if order == "asc":
+            queryset = queryset.order_by(F('publish_date').asc(nulls_last=True))
+        elif order == "desc":
+            queryset = queryset.order_by(F('publish_date').desc(nulls_last=True))
+        return queryset
 
 
 class NewspaperDetailView(DetailView):
@@ -44,9 +63,25 @@ class NewspaperDetailView(DetailView):
     template_name = "newspaper/newspaper_detail_view.html"
 
 
+class NewspaperCreateView(LoginRequiredMixin, CreateView):
+    model = Newspaper
+    fields = "__all__"
+    template_name = "forms/newspaper_form.html"
+    success_url = reverse_lazy("newspaper:newspaper-list")
+
+
 class RedactorListView(ListView):
     model = Redactor
     template_name = "newspaper/redactor_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order = self.request.GET.get("order", None)
+        if order == "asc":
+            queryset = queryset.annotate(num_newspapers=Count('newspapers')).order_by('num_newspapers')
+        elif order == "desc":
+            queryset = queryset.annotate(num_newspapers=Count('newspapers')).order_by('-num_newspapers')
+        return queryset
 
 
 class RedactorDetailView(DetailView):
