@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from newspaper.forms import RedactorCreationForm
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -119,3 +120,9 @@ class RedactorListView(ListView):
 class RedactorDetailView(DetailView):
     model = Redactor
     template_name = "newspaper/redactor_detail_view.html"
+
+
+class RedactorCreateView(LoginRequiredMixin, CreateView):
+    form_class = RedactorCreationForm
+    template_name = "forms/redactor_form.html"
+    success_url = reverse_lazy("newspaper:redactor-list")
