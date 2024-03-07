@@ -1,30 +1,30 @@
-<ul class="sidebar-nav">
+<ul class="sidebar-nav list-group">
   {% if user.is_authenticated %}
-    <li>
+    <li class="list-group-item">
       User: <strong>{{ user.username }}</strong>
     </li>
-    <li>
+    <li class="list-group-item">
       <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button class="button" type="submit">Logout</button>
       </form>
     </li>
   {% else %}
-    <li>
+    <li class="list-group-item">
       <a class="button" href="{% url 'login' %}">Login</a>
     </li>
   {% endif %}
   <br>
-  <li>
+  <li class="list-group-item">
     <a href="{% url 'newspaper:index' %}">Our home page</a>
   </li>
-  <li>
+  <li class="list-group-item">
     <a href="{% url 'newspaper:topic-list' %}">All topics</a>
   </li>
-  <li>
+  <li class="list-group-item">
     <a href="{% url 'newspaper:newspaper-list' %}">All newspapers</a>
   </li>
-  <li>
+  <li class="list-group-item">
     <a href="{% url 'newspaper:redactor-list' %}">All redactors</a>
   </li>
 </ul>
