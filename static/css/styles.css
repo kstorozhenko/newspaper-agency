@@ -10,6 +10,7 @@ body {
 
 .button {
   background-color: #4CAF50;
+  border: 1px black;
   color: white;
   padding: 10px 22px;
   text-align: center;
@@ -25,7 +26,6 @@ body {
 .button:hover {
   background-color: #000000;
   color: #ffffff;
-  border: 1px solid black;
 }
 
 .page-number {
