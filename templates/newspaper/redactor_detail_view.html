@@ -1,19 +1,46 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base-presentation.html' %}
 {% block content %}
-  <h1>{{ redactor.username }}</h1>
-  <p><strong>Name: {{ redactor.first_name }} {{ redactor.last_name }}</strong></p>
-  <p>Years of experience: {{ redactor.years_of_experience }} years</p>
-
-  <h2>Articles by this author:</h2>
-  {% if redactor.newspapers.all %}
-    <ul>
-      {% for newspaper in redactor.newspapers.all %}
-        <li>
-          <a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>This author has no articles.</p>
-  {% endif %}
-{% endblock %}
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">{{ redactor.username }}</h1>
+            <p class="lead text-white mt-3">
+              Name: <strong>{{ redactor.first_name }} {{ redactor.last_name }}</strong><br>
+              Years of experience: {{ redactor.years_of_experience }} years
+            </p>
+          </div>
+        </div>
+      </div>
+</header>
+  <section class="pt-3 pb-4" id="count-stats" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+          <div class="row">
+            <h2 class="text-center">Articles by this author:</h2>
+            {% if redactor.newspapers.all %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for newspaper in redactor.newspapers.all %}
+                    <tr>
+                      <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}"><strong>{{ newspaper.title }}</strong</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>This author has no articles.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

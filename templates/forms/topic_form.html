@@ -1,11 +1,29 @@
-{% extends "base.html" %}
+{% extends 'layouts/base-presentation.html' %}
 {% load crispy_forms_filters %}
-
 {% block content %}
-  <h1>{{ object|yesno:"Update, Create" }} new Topic</h1>
-  <form action="" method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input class="button" type="submit" value="Submit">
-  </form>
-{% endblock %}
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">{{ object|yesno:"Update, Create" }} new Topic</h1>
+          </div>
+        </div>
+      </div>
+</header>
+  <section class="pt-3 pb-4" id="count-stats" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+          <div class="row">
+            <form action="" method="post" class="text-center">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <input class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0" type="submit" value="Submit">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

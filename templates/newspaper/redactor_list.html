@@ -1,38 +1,93 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base-presentation.html' %}
+
 {% block content %}
-  <h1 style="display: inline-block;">Our redactors</h1>
-  <a href="{% url 'newspaper:redactor-create' %}" class="button" style="float: right;">Create new redactor</a>
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">
+              <a class="text-white" target="_blank">Our redactors</a>
+            </h1>
+            <p class="lead text-white mt-3">
+              We offer you many interesting topics that will help you increase your knowledge about our world and our universe</p>.
+            <a href="{% url 'newspaper:redactor-create' %}" class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">Create new redactor</a>
+          </div>
+        </div>
+      </div>
+</header>
+  <section class="pt-3 pb-4" id="count-stats" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+          <div class="row">
+            {% if redactor_list %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Number of Articles</th>
+                    <th>Experience</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for redactor in redactor_list %}
+                    <tr>
+                      <td><strong><a href="{% url 'newspaper:redactor-detail' redactor.id %}">{{ redactor.username }}</a></strong></td>
+                      <td>{{ redactor.first_name }}</td>
+                      <td>{{ redactor.last_name }}</td>
+                      <td>{{ redactor.newspapers.count }}</td>
+                      <td>{{ redactor.years_of_experience }} years</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>There are no Redactors</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
 
-  <div>
-    <a href="?order=asc">Sort by number of articles ↓</a> |
-    <a href="?order=desc">Sort by number of articles ↑</a>
-  </div>
+{% block javascripts %}
 
-  {% if redactor_list %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Number of Articles</th>
-          <th>Experience</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for redactor in redactor_list %}
-          <tr>
-            <td><a href="{% url 'newspaper:redactor-detail' redactor.id %}">{{ redactor.username }}</a></td>
-            <td>{{ redactor.first_name }}</td>
-            <td>{{ redactor.last_name }}</td>
-            <td>{{ redactor.newspapers.count }}</td>
-            <td>{{ redactor.years_of_experience }} years</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no Redactors</p>
-  {% endif %}
+  <script src="{{ ASSETS_ROOT }}/js/plugins/countup.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/rellax.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/tilt.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
 
-{% endblock %}
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+  <script type="text/javascript">
+    if (document.getElementById('state1')) {
+      const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+      if (!countUp.error) {
+        countUp.start();
+      } else {
+        console.error(countUp.error);
+      }
+    }
+    if (document.getElementById('state2')) {
+      const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+      if (!countUp1.error) {
+        countUp1.start();
+      } else {
+        console.error(countUp1.error);
+      }
+    }
+    if (document.getElementById('state3')) {
+      const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+      if (!countUp2.error) {
+        countUp2.start();
+      } else {
+        console.error(countUp2.error);
+      };
+    }
+  </script>
+
+{% endblock javascripts %}

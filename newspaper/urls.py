@@ -19,8 +19,6 @@ urlpatterns = [
     path("redactors/", RedactorListView.as_view(), name="redactor-list"),
     path("redactors/<int:pk>", RedactorDetailView.as_view(), name="redactor-detail"),
     path("redactors/create", RedactorCreateView.as_view(), name="redactor-create"),
-
-
 ]
 
 app_name = "newspaper"

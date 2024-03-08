@@ -1,16 +1,20 @@
 {% load query_transform %}
-{% if is_paginated %}
-    <ul class="pagination" style="display: flex; align-items: center;">
+<div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+  {% if is_paginated %}
+    <div class="pagination-info btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">
+      <span class="page-link page-number btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">{{ page_obj.number }} of {{ paginator.num_pages }}</span>
+    </div>
+    <ul class="pagination" style="align-items: center; display: flex; justify-content: center; margin-top: 10px;">
       {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link page-number" href="?{% query_transform request page=page_obj.previous_page_number %}">Prev</a>
+          <a class="page-link page-number btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0" href="?{% query_transform request page=page_obj.previous_page_number %}">Prev</a>
         </li>
       {% endif %}
-      <li class="page-item active"><span class="page-link page-number">{{ page_obj.number }} of {{ paginator.num_pages }}</span></li>
       {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link page-number" href="?{% query_transform request page=page_obj.next_page_number %}">Next</a>
+          <a class="page-link page-number btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0" href="?{% query_transform request page=page_obj.next_page_number %}">Next</a>
         </li>
       {% endif %}
     </ul>
   {% endif %}
+</div>

@@ -1,42 +1,66 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base-presentation.html' %}
 {% load crispy_forms_filters %}
 {% block content %}
-  <h1 style="display: inline-block;">Articles list</h1>
-  <a href="{% url 'newspaper:newspaper-create' %}" class="button" style="float: right;">Create new Article</a>
-  <form method="get" action="" class="form-inline">
-    {{ search_form|crispy }}
-    <input class="button" type="submit" value="🔍">
-  </form>
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">
+              <a class="text-white" target="_blank">Articles</a>
+            </h1>
+            <p class="lead text-white mt-3">
+              We offer you many interesting topics that will help you increase your knowledge about our world and our universe</p>.
+            <a href="{% url 'newspaper:newspaper-create' %}" class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">Create new Article</a>
+          </div>
+        </div>
+      </div>
+</header>
+  <section class="pt-3 pb-4" id="count-stats" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+          <div class="row">
+          <div class="col-12">
+            <form method="GET" action="" class="d-flex">
+              {{ search_form }}
+              <button type="submit" class="btn btn-sm bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">Search</button>
+            </form>
+          </div>
 
-  {% if newspaper_list %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Topic</th>
-          <th>Publish Date</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for newspaper in newspaper_list %}
-          <tr>
-            <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a></td>
-            <td>{{ newspaper.topic.name }}</td>
-            <td>{{ newspaper.publish_date }}</td>
-            <td>
-              <a href="{% url 'newspaper:newspaper-update' pk=newspaper.id %}">UPDATE</a>
-            </td>
-            <td>
-              <a href="{% url 'newspaper:newspaper-delete' pk=newspaper.id %}">DELETE</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no Newspapers</p>
-  {% endif %}
-
-{% endblock %}
+            {% if newspaper_list %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Topic</th>
+                    <th>Publish Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for newspaper in newspaper_list %}
+                    <tr>
+                      <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}"><strong>{{ newspaper.title }}</strong></a></td>
+                      <td>{{ newspaper.topic.name }}</td>
+                      <td>{{ newspaper.publish_date }}</td>
+                      <td>
+                        <a href="{% url 'newspaper:newspaper-update' pk=newspaper.id %}">UPDATE</a>
+                      </td>
+                      <td>
+                        <a href="{% url 'newspaper:newspaper-delete' pk=newspaper.id %}">DELETE</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>There are no Newspapers</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
