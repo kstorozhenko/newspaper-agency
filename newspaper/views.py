@@ -1,13 +1,20 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import F, Count
+from django.db.models import Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import generic
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView)
 
-from newspaper.forms import RedactorCreationForm, NewspaperForm, NewspaperSearchForm
-from newspaper.models import Newspaper, Redactor, Topic
+from newspaper.forms import (RedactorCreationForm,
+                             NewspaperForm,
+                             NewspaperSearchForm)
+from newspaper.models import (Newspaper,
+                              Redactor,
+                              Topic)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -35,7 +42,9 @@ class TopicListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for topic in context['topic_list']:
-            topic.latest_article = topic.newspapers.order_by('-publish_date').first()
+            topic.latest_article = (topic.newspapers.
+                                    order_by('-publish_date')
+                                    .first())
         return context
 
 
@@ -118,9 +127,13 @@ class RedactorListView(ListView):
         queryset = super().get_queryset()
         order = self.request.GET.get("order", None)
         if order == "asc":
-            queryset = queryset.annotate(num_newspapers=Count('newspapers')).order_by('num_newspapers')
+            queryset = (queryset.
+                        annotate(num_newspapers=Count('newspapers')).
+                        order_by('num_newspapers'))
         elif order == "desc":
-            queryset = queryset.annotate(num_newspapers=Count('newspapers')).order_by('-num_newspapers')
+            queryset = (queryset.
+                        annotate(num_newspapers=Count('newspapers')).
+                        order_by('-num_newspapers'))
         return queryset
 
 
