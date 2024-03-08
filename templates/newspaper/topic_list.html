@@ -28,6 +28,8 @@
                     <th>Topic</th>
                     <th>Number of Articles</th>
                     <th>Latest published article on the topic</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -41,6 +43,12 @@
                         {% else %}
                           No articles yet
                         {% endif %}
+                      </td>
+                    <td>
+                        <a href="{% url 'newspaper:topic-update' pk=topic.id %}">UPDATE</a>
+                      </td>
+                      <td>
+                        <a href="{% url 'newspaper:topic-delete' pk=topic.id %}">DELETE</a>
                       </td>
                     </tr>
                   {% endfor %}

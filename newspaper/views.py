@@ -1,6 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (ListView,
@@ -59,11 +60,21 @@ class TopicUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class TopicDeleteView(LoginRequiredMixin, DeleteView):
     model = Topic
     template_name = "forms/topic_confirm_delete.html"
     success_url = reverse_lazy("newspaper:topic-list")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class TopicCreateView(LoginRequiredMixin, CreateView):
@@ -71,6 +82,11 @@ class TopicCreateView(LoginRequiredMixin, CreateView):
     fields = "__all__"
     template_name = "forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class NewspaperListView(ListView):
@@ -104,6 +120,11 @@ class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class NewspaperCreateView(LoginRequiredMixin, CreateView):
     model = Newspaper
@@ -111,11 +132,21 @@ class NewspaperCreateView(LoginRequiredMixin, CreateView):
     template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
     model = Newspaper
     template_name = "forms/newspaper_confirm_delete.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class RedactorListView(ListView):
@@ -146,3 +177,8 @@ class RedactorCreateView(LoginRequiredMixin, CreateView):
     form_class = RedactorCreationForm
     template_name = "forms/redactor_form.html"
     success_url = reverse_lazy("newspaper:redactor-list")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return render(request, "newspaper/dont_have_permission.html")
+        return super().dispatch(request, *args, **kwargs)

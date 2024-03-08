@@ -2602,6 +2602,13 @@ textarea.form-control-lg {
   font-size: 0.75rem;
   border-radius: 0.5rem; }
 
+.btn-sm-cust, .btn-group-sm > .btn {
+  padding: 0.5rem 2rem;
+  font-size: 0.75rem;
+  border-radius: 0 25px 25px 0; }
+
+
+
 .fade {
   transition: opacity 0.15s linear; }
   @media (prefers-reduced-motion: reduce) {
@@ -9021,6 +9028,7 @@ label,
 
 .bg-gradient-faded-white-vertical {
   background-image: radial-gradient(200px circle at 50% 70%, rgba(255, 255, 255, 0.3) 0, #fff 100%); }
+
 
 .page-header {
   padding: 0;
