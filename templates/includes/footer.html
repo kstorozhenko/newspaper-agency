@@ -1,0 +1,28 @@
+<footer class="footer pt-1 mt-1">
+    <hr class="horizontal dark mb-5">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0" style="width: 120px; height: 30px; font-size: 0.8em;">
+              Logout
+            </button>
+          </form>
+        {% else %}
+          <form action="{% url 'login' %}" method="get">
+            <button type="submit" class="btn btn-sm bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0" style="width: 120px; height: 30px; font-size: 0.8em;">
+              Login
+            </button>
+          </form>
+        {% endif %}
+      </div>
+      <div class="col-12">
+        <div class="text-center">
+          <p class="my-4 text-sm">
+            Project made by © <a target="_blank" href="https://github.com/kstorozhenko" target="_blank">Kyrylo Storozhenko</a>
+          </p>
+        </div>
+      </div>
+    </div>
+</footer>
