@@ -43,9 +43,8 @@ class TopicListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for topic in context['topic_list']:
-            topic.latest_article = (topic.newspapers.
-                                    order_by('-publish_date')
-                                    .first())
+            topic.latest_article = (topic.newspapers.order_by('-publish_date').first())
+
         return context
 
 
@@ -63,6 +62,7 @@ class TopicUpdateView(LoginRequiredMixin, UpdateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -74,6 +74,7 @@ class TopicDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -86,6 +87,7 @@ class TopicCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -106,6 +108,7 @@ class NewspaperListView(ListView):
         form = NewspaperSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(title__icontains=form.cleaned_data["title"])
+
         return queryset
 
 
@@ -123,6 +126,7 @@ class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -135,6 +139,7 @@ class NewspaperCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -146,6 +151,7 @@ class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -156,15 +162,16 @@ class RedactorListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        order = self.request.GET.get("order", None)
-        if order == "asc":
-            queryset = (queryset.
-                        annotate(num_newspapers=Count('newspapers')).
-                        order_by('num_newspapers'))
-        elif order == "desc":
+        order = self.request.GET.get("order", "asc")
+        if order == "desc":
             queryset = (queryset.
                         annotate(num_newspapers=Count('newspapers')).
                         order_by('-num_newspapers'))
+        else:
+            queryset = (queryset.
+                        annotate(num_newspapers=Count('newspapers')).
+                        order_by('num_newspapers'))
+
         return queryset
 
 
@@ -181,4 +188,5 @@ class RedactorCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return render(request, "newspaper/dont_have_permission.html")
+
         return super().dispatch(request, *args, **kwargs)
