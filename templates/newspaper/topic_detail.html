@@ -1,0 +1,59 @@
+{% extends "layouts/base-presentation.html" %}
+{% block content %}
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">{{ topic.name }}</h1>
+            <p class="lead text-white mt-3">
+              We offer you many interesting topics that will help you increase your knowledge about our world and our universe</p>.
+            <a href="{% url 'newspaper:topic-update' topic.id %}" class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">Update Topic</a>
+            <a href="{% url 'newspaper:topic-delete' topic.id %}" class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0">Delete Topic</a>
+          </div>
+        </div>
+      </div>
+</header>
+  <section class="pt-3 pb-4" id="count-stats" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+          <div class="row">
+            {% if topic.newspapers.all %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publish Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for newspaper in topic.newspapers.all %}
+                    <tr>
+                      <td><a href="{% url 'newspaper:newspaper-detail' newspaper.id %}"><strong>{{ newspaper.title }}</strong></a></td>
+                      <td>
+                        {% for redactor in newspaper.redactors.all %}
+                          {% if forloop.last and forloop.counter > 1 %}
+                            and <strong>{{ redactor.username }}</strong>
+                          {% elif not forloop.first %}
+                            , <strong>{{ redactor.username }}</strong>
+                          {% else %}
+                            <strong>{{ redactor.username }}</strong>
+                          {% endif %}
+                        {% endfor %}
+                      </td>
+                      <td>{{ newspaper.publish_date }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>There are no articles on this topic.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

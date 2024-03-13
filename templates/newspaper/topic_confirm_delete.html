@@ -1,0 +1,21 @@
+{% extends "layouts/base-presentation.html" %}
+{% block content %}
+<header class="header-2">
+    <div class="page-header section-height-75 relative" style="background-image: url("{{ ASSETS_ROOT }}/img/curved-images/NEWIMAGE.jpg")">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">Delete topic</h1>
+            <p class="lead text-white mt-3">
+              Are you sure you want delete the topic: {{ topic }}<br>
+              <i><strong>All articles with this topic will be also deleted!</strong></i>
+            </p>
+            <form action="" method="post" class="text-center">
+              {% csrf_token %}
+              <input type="submit" value="Yes, delete" class="btn btn-sm  bg-gradient-dark btn-round mb-0 me-1 mt-2 mt-md-0"/>
+            </form>
+          </div>
+        </div>
+      </div>
+</header>
+{% endblock content %}
