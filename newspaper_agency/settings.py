@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "newspaper-agency-ewm1.onrender.com"]
 
@@ -87,7 +87,7 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES["default"].update(db_from_env)
 
-DATABASE_URL = "postgres://clferfcg:fxb4Skh1vQjSM3YqkzBedazreI00YNvV@cornelius.db.elephantsql.com/clferfcg"
+DATABASE_URL = "postgres://yxldixsu:9pPS5-tQsHbTOEvR1Hq8j74MfPr9qPFn@cornelius.db.elephantsql.com/yxldixsu"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
