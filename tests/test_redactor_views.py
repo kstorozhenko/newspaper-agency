@@ -25,9 +25,9 @@ class RedactorViewsTest(TestCase):
         response = self.client.get(reverse("newspaper:redactor-detail", args=[self.user.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "testuser")
-        self.assertTemplateUsed(response, "newspaper/redactor_detail_view.html")
+        self.assertTemplateUsed(response, "newspaper/redactor_detail.html")
 
     def test_redactor_create_view(self):
         response = self.client.get(reverse("newspaper:redactor-create"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "forms/redactor_form.html")
+        self.assertTemplateUsed(response, "forms/redactor_create_form.html")

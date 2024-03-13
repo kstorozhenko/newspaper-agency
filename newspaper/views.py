@@ -50,13 +50,11 @@ class TopicListView(ListView):
 
 class TopicDetailView(DetailView):
     model = Topic
-    template_name = "newspaper/topic_detail_view.html"
 
 
 class TopicUpdateView(LoginRequiredMixin, UpdateView):
     model = Topic
     fields = "__all__"
-    template_name = "forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -68,7 +66,6 @@ class TopicUpdateView(LoginRequiredMixin, UpdateView):
 
 class TopicDeleteView(LoginRequiredMixin, DeleteView):
     model = Topic
-    template_name = "forms/topic_confirm_delete.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -81,7 +78,6 @@ class TopicDeleteView(LoginRequiredMixin, DeleteView):
 class TopicCreateView(LoginRequiredMixin, CreateView):
     model = Topic
     fields = "__all__"
-    template_name = "forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -114,13 +110,11 @@ class NewspaperListView(ListView):
 
 class NewspaperDetailView(DetailView):
     model = Newspaper
-    template_name = "newspaper/newspaper_detail_view.html"
 
 
 class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
     model = Newspaper
     form_class = NewspaperForm
-    template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -133,7 +127,6 @@ class NewspaperUpdateView(LoginRequiredMixin, UpdateView):
 class NewspaperCreateView(LoginRequiredMixin, CreateView):
     model = Newspaper
     form_class = NewspaperForm
-    template_name = "forms/newspaper_form.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -145,7 +138,6 @@ class NewspaperCreateView(LoginRequiredMixin, CreateView):
 
 class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
     model = Newspaper
-    template_name = "forms/newspaper_confirm_delete.html"
     success_url = reverse_lazy("newspaper:newspaper-list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -157,32 +149,25 @@ class NewspaperDeleteView(LoginRequiredMixin, DeleteView):
 
 class RedactorListView(ListView):
     model = Redactor
-    template_name = "newspaper/redactor_list.html"
     paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
         order = self.request.GET.get("order", "asc")
-        if order == "desc":
-            queryset = (queryset.
-                        annotate(num_newspapers=Count('newspapers')).
-                        order_by('-num_newspapers'))
-        else:
-            queryset = (queryset.
-                        annotate(num_newspapers=Count('newspapers')).
-                        order_by('num_newspapers'))
+        queryset = (queryset.
+                    annotate(num_newspapers=Count("newspapers")).
+                    order_by("-num_newspapers" if order == "desc" else "num_newspapers"))
 
         return queryset
 
 
 class RedactorDetailView(DetailView):
     model = Redactor
-    template_name = "newspaper/redactor_detail_view.html"
 
 
 class RedactorCreateView(LoginRequiredMixin, CreateView):
     form_class = RedactorCreationForm
-    template_name = "forms/redactor_form.html"
+    template_name = "newspaper/redactor_create_form.html"
     success_url = reverse_lazy("newspaper:redactor-list")
 
     def dispatch(self, request, *args, **kwargs):

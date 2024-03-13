@@ -18,7 +18,7 @@ from newspaper.views import (
 )
 
 urlpatterns = [
-    path("/", index, name="index"),
+    path("", index, name="index"),
     path("topics/", TopicListView.as_view(), name="topic-list"),
     path("topics/create/", TopicCreateView.as_view(), name="topic-create"),
     path("topics/<int:pk>/", TopicDetailView.as_view(), name="topic-detail"),

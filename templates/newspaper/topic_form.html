@@ -1,4 +1,4 @@
-{% extends 'layouts/base-presentation.html' %}
+{% extends "layouts/base-presentation.html" %}
 {% load crispy_forms_filters %}
 {% block content %}
 <header class="header-2">
@@ -6,7 +6,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto">
-            <h1 class="text-white pt-3 mt-n5">Create redactor</h1>
+            <h1 class="text-white pt-3 mt-n5">{{ object|yesno:"Update, Create" }} new Topic</h1>
           </div>
         </div>
       </div>
